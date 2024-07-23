@@ -11,6 +11,9 @@ class HomeController extends AbstractController
     #[Route('/')]
     public function home() : Response
     {
+        // Call la bdd
+        // Envoyer un mail
+        // créer un rendu $this->render()
 	    return new Response('Bienvenue sur votre accueil !');
     }
 }
