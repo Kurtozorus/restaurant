@@ -24,7 +24,6 @@ class FoodController extends AbstractController
             $food->setDescription('Description teste.');
             $food->setPrice(20);
             $food->setCreatedAt(new \DateTimeImmutable());
-            $food->setUpdatedAt(new \DateTimeImmutable());
     
             $this->manager->persist($food);
             $this->manager->flush();
@@ -58,6 +57,7 @@ class FoodController extends AbstractController
         $food->setTitle('Food name updated');
         $food->setDescription('Description modified');
         $food->setPrice('19.99');
+        $food->setUpdatedAt(new \DateTimeImmutable());
         $this->manager->flush();
 
         return $this->redirectToRoute('app_api_food_show', ['id' => $food->getId()]);

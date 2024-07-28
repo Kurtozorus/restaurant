@@ -23,7 +23,6 @@ class PictureController extends AbstractController
             $picture->setTitle( title: 'Image teste');
             $picture->setSlug('Image de teste simulant un slug.');
             $picture->setCreatedAt(new \DateTimeImmutable());
-            $picture->setUpdateAt(new \DateTimeImmutable());
     
             $this->manager->persist($picture);
             $this->manager->flush();
@@ -56,6 +55,7 @@ class PictureController extends AbstractController
         }
         $picture->setTitle('Picture name updated');
         $picture->setSlug('Slug modified');
+        $picture->setUpdatedAt(new \DateTimeImmutable());
         $this->manager->flush();
 
         return $this->redirectToRoute('app_api_picture_show', ['id' => $picture->getId()]);

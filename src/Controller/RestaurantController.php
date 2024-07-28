@@ -54,6 +54,8 @@ class RestaurantController extends AbstractController
             throw new \Exception("No Restaurant  found for {$id} id");
         }
         $restaurant->setName('Restaurant name updated');
+        $restaurant->setDescription('Restaurant description updated');
+        $restaurant->setUpdatedAt(new \DateTimeImmutable());
         $this->manager->flush();
 
         return $this->redirectToRoute('app_api_restaurant_show', ['id' => $restaurant->getId()]);

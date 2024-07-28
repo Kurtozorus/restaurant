@@ -25,7 +25,6 @@ class BookingController extends AbstractController
             $booking->setOrderHour(new \DateTime());
             $booking->setAllergy('Allergie teste');
             $booking->setCreatedAt(new \DateTimeImmutable());
-            $booking->setUpdatedAt(new \DateTimeImmutable());
     
             $this->manager->persist($booking);
             $this->manager->flush();
@@ -60,6 +59,7 @@ class BookingController extends AbstractController
         $booking->setOrderDate(new \DateTime());
         $booking->setOrderHour(new \DateTime());
         $booking->setAllergy('Allergy updated');
+        $booking->setUpdatedAt(new \DateTimeImmutable());
         $this->manager->flush();
 
         return $this->redirectToRoute('app_api_booking_show', ['id' => $booking->getId()]);
