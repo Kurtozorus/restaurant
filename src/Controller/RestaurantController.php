@@ -49,7 +49,8 @@ class RestaurantController extends AbstractController
     {
         $restaurant = $this->repository->findOneBy(['id' => $id]);
         if ($restaurant) {
-            return new JsonResponse(null, Response::HTTP_OK, [], true);
+            $responseData = $this->serializer->serialize($restaurant, 'json');
+            return new JsonResponse($responseData, Response::HTTP_OK, [], true);
         }
 
         return new JsonResponse(null, Response::HTTP_NOT_FOUND);
