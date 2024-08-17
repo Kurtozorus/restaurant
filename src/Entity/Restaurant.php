@@ -55,6 +55,9 @@ class Restaurant
     #[ORM\OneToMany(targetEntity: Menu::class, mappedBy: 'restaurant', orphanRemoval: true)]
     private Collection $menus;
 
+    #[ORM\OneToOne(inversedBy: 'restaurant', cascade: ['persist', 'remove'])]
+    private ?User $Owner = null;
+
     public function __construct()
     {
         $this->pictures = new ArrayCollection();
@@ -237,6 +240,18 @@ class Restaurant
                 $menu->setRestaurant(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->Owner;
+    }
+
+    public function setOwner(?User $Owner): static
+    {
+        $this->Owner = $Owner;
 
         return $this;
     }
