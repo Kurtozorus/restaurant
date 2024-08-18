@@ -27,16 +27,16 @@ class SmokeTest extends WebTestCase
         $client = self::createClient();
         $client->followRedirects(false);
 
-        //  $client->request('POST', '/api/registration', [], [], [
-        //      'Content-Type' => 'application/json',
-        //  ], json_encode([
-        //      "email"=> "adresse@email.com",
-        //      "password"=> "Mot de passe",
-        //      "firstName" => "Nom d'utilisateur",
-        //      "lastName" => "prenom d'utilisateur",
-        //      "guestNumber" => 50,
-        //      "allergy" => "Cacahuètes"
-        //  ], JSON_THROW_ON_ERROR));
+        //   $client->request('POST', '/api/registration', [], [], [
+        //       'Content-Type' => 'application/json',
+        //   ], json_encode([
+        //       "email"=> "adresse@email.com",
+        //       "password"=> "Mot de passe",
+        //       "firstName" => "Nom d'utilisateur",
+        //       "lastName" => "prenom d'utilisateur",
+        //       "guestNumber" => 50,
+        //       "allergy" => "Cacahuètes"
+        //   ], JSON_THROW_ON_ERROR));
 
          $client->request('POST', '/api/login', [], [], [
              'CONTENT_TYPE' => 'application/json',
@@ -44,6 +44,23 @@ class SmokeTest extends WebTestCase
               "username" => "adresse@email.com",
               "password" => "Mot de passe"
          ], JSON_THROW_ON_ERROR));
+
+        $statusCode = $client->getResponse()->getStatusCode();
+        dd($statusCode);
+    }
+
+    public function testBookingRouteCanCreateBook(): void
+    {
+        $client = self::createClient();
+        $client->followRedirects(false);
+
+        $client->request('POST', '/api/menu', [], [], [
+            'Content_Type' => 'application/json',
+        ], json_encode([
+             "title" => "Menu exemple",
+             "Description" => "Description du menu exemple",
+             "price" => 15
+        ], JSON_THROW_ON_ERROR));
 
         $statusCode = $client->getResponse()->getStatusCode();
         dd($statusCode);
