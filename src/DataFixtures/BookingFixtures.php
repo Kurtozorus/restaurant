@@ -7,6 +7,7 @@ use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Faker;
 
 
 class BookingFixtures extends Fixture implements DependentFixtureInterface
@@ -27,18 +28,26 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
 
         return new DateTimeImmutable(sprintf('%s %02d:%02d:00', date('Y-m-d'), $hour, $minute));
     }
+
+    public const BOOKING_NB_TUPLES = 20;
+
     public function load(ObjectManager $manager): void
     {
-        for ($i = 1; $i <= 20; $i++) {
-            $restaurant = $this->getReference("restaurant" . random_int(1, 20));
-            $client = $this->getReference("client" . random_int(1, 20));
+        $faker = Faker\Factory::create('fr_FR');
+        for ($i = 1; $i <= self::BOOKING_NB_TUPLES; $i++) {
+            $restaurant = $this->getReference(RestaurantFixtures::RESTAURANT_REFERENCE . random_int(1, 20));
+            $client = $this->getReference(UserFixtures::USER_REFERENCE . random_int(1, 20));
             $booking = (new Booking())
-                ->setGuestNumber(random_int(0, 10))
-                ->setOrderDate($this->getRandomDate())
-                ->setOrderHour($this->getRandomHour())
+                // ->setGuestNumber(random_int(0, 10))
+                ->setGuestNumber($faker->numberBetween(0, 10))
+                // ->setOrderDate($this->getRandomDate())
+                ->setOrderDate($faker->dateTimeBetween('now', '+1 year'))
+                // ->setOrderHour($this->getRandomHour())
+                ->setOrderHour($faker->dateTimeBetween('09:00:00', '20:00:00'))
                 ->setRestaurant($restaurant)
                 ->setClient($client)
-                ->setAllergy("allergy$i")
+                // ->setAllergy("allergy$i")
+                ->setAllergy($faker->word())
                 ->setCreatedAt(new DateTimeImmutable());
 
             $manager->persist($booking);

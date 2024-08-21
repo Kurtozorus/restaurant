@@ -7,25 +7,35 @@ use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-
+use Faker;
 
 class RestaurantFixtures extends Fixture implements DependentFixtureInterface
 {
+    public const RESTAURANT_REFERENCE = "restaurant";
+    public const RESTAURANT_NB_TUPLES = 20;
+
     public function load(ObjectManager $manager): void
     {
-        for ($i = 1; $i <= 20; $i++) {
-            $client = $this->getReference("client$i");
+        $faker = Faker\Factory::create('fr_FR');
+
+        for ($i = 1; $i <= self::RESTAURANT_NB_TUPLES; $i++) {
+            $client = $this->getReference(UserFixtures::USER_REFERENCE . $i);
             $restaurant = (new Restaurant())
-                ->setName("Nomexmeple$i")
-                ->setDescription("Description$i")
-                ->setAmOpeningTime(['06h30-14h'])
-                ->setPmOpeningTime(['19h30-23-00'])
-                ->setMaxGuest(random_int(1, 20))
+                // ->setName("Nomexmeple$i")
+                ->setName($faker->word())
+                // ->setDescription("Description$i")
+                ->setDescription($faker->text())
+                // ->setAmOpeningTime(['06h30-14h'])
+                ->setAmOpeningTime([$faker->time()])
+                // ->setPmOpeningTime(['19h30-23-00'])
+                ->setPmOpeningTime([$faker->time()])
+                // ->setMaxGuest(random_int(1, 20))
+                ->setMaxGuest($faker->numberBetween(1, 20))
                 ->setOwner($client)
                 ->setCreatedAt(new DateTimeImmutable());
 
             $manager->persist($restaurant);
-            $this->addReference("restaurant$i", $restaurant);
+            $this->addReference(self::RESTAURANT_REFERENCE .$i, $restaurant);
         }
         $manager->flush();
     }

@@ -11,9 +11,11 @@ use Doctrine\Persistence\ObjectManager;
 
 class MenuFixtures extends Fixture implements DependentFixtureInterface
 {
+    public const MENU_NB_TUPLES = 20;
+    
     public function load(ObjectManager $manager): void
     {
-        for ($i = 1; $i <= 20; $i++) {
+        for ($i = 1; $i <= self::MENU_NB_TUPLES; $i++) {
             $restaurant = $this->getReference("restaurant" . random_int(1, 20));
             $menu = (new Menu())
                 ->setTitle("Title$i")
